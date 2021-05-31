@@ -1,0 +1,22 @@
+{
+  "name": "stimsrv-client-puppeteer",
+  "version": "0.0.1",
+  "description": "Server-side rendering of tasks for old & simple browsers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/floledermann/stimsrv-client-puppeteer.git"
+  },
+  "author": "Florian Ledermann <florian.ledermann@tuwien.ac.at>",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/floledermann/stimsrv-client-puppeteer/issues"
+  },
+  "homepage": "https://github.com/floledermann/stimsrv-client-puppeteer#readme",
+  "dependencies": {
+    "puppeteer": "9.1.1"
+  }
+}
