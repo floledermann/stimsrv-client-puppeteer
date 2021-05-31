@@ -1,6 +1,7 @@
 const puppeteer = require("puppeteer");
 
 const stream = require("stream");
+const path = require("path");
 
 module.exports = function(config) {
   
@@ -147,7 +148,7 @@ module.exports = function(config) {
             update();
           }
           else {
-            res.render("experiment-simplebrowser.html", {
+            res.render(path.join(__dirname, "views", "experiment-client-puppeteer.html"), {
               message: lastMessage,
               data: lastMessageData,
               role: req.clientRole,
