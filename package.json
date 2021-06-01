@@ -1,6 +1,6 @@
 {
   "name": "stimsrv-client-puppeteer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Server-side rendering of tasks for old & simple browsers.",
   "main": "stimsrv-client-puppeteer.js",
   "scripts": {
