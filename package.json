@@ -2,7 +2,7 @@
   "name": "stimsrv-client-puppeteer",
   "version": "0.0.1",
   "description": "Server-side rendering of tasks for old & simple browsers.",
-  "main": "index.js",
+  "main": "stimsrv-client-puppeteer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

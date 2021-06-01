@@ -11,13 +11,16 @@ module.exports = function(config) {
     // See https://bugs.chromium.org/p/chromium/issues/detail?id=765284
     // Therefore, render in non-headless mode by default.
     headless: false,
+    refreshDelay: 5,
+    fallbackRefreshDelay: 59,
+    requestTimeout: 60,
     // the id of this client type - has to match your experiment.clients setup
     clientId: "browser-simple",
     // which client to use in puppeteer browser - must not recursively invoke puppeteer!
     subClient: "browser"
   }, config);
 
-  return function(experiment, controller) {
+  function clientFactory(experiment, controller) {
   
     return function(client, role) {
       
@@ -148,15 +151,14 @@ module.exports = function(config) {
             update();
           }
           else {
-            res.render(path.join(__dirname, "views", "experiment-client-puppeteer.html"), {
+            res.render("experiment-client-puppeteer.html", {
               message: lastMessage,
               data: lastMessageData,
               role: req.clientRole,
               imageSize: [imageWidth/(client.devicePixelRatio || 1), imageHeight/(client.devicePixelRatio || 1)],
-              delay: experiment.settings.simpleBrowserRefresh || 5,
               backgroundColor: currentDisplay?.backgroundColor || "#000000",
               foregroundColor: currentDisplay?.foregroundColor || "#ffffff",
-              clientId: config.clientId
+              config: config
             });
           }
         }
@@ -164,4 +166,8 @@ module.exports = function(config) {
       }
     }
   }
+  
+  clientFactory.templateDir = path.join(__dirname, "views");
+  
+  return clientFactory;
 }

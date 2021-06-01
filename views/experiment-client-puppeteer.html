@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{{ experiment.name }}{% endblock %}
+
+{% block head %}
+{# refresh in case there is no JS at all #}
+<noscript>
+<meta http-equiv="refresh" content="{{config.refreshDelay}}">
+</noscript>
+{% endblock %}
+
+{% block bodyclass %}{% for role in roles %}has-role-{{role}} {% endfor %}{% endblock %}
+
+{% block body %}
+<style>
+{# set background to avoid flicker #}
+html, body {
+  background-color: {{backgroundColor}};
+  color: {{foregroundColor}};
+}
+</style>
+
+{#
+<script>
+document.write(window.innerWidth);
+</script>
+#}
+
+{% for ui in role.interfaces %}
+<section class="interface-{{ui}}">
+<img src="/image/?role={{role.role}}&client={{config.clientId}}" width="{{imageSize[0]}}" height="{{imageSize[1]}}">
+</section>
+{% endfor %}
+
+<!--
+Debug info:
+message: {{ message }}
+data: {{ data  | dump | safe }}
+-->
+
+<script>
+// simple refresh as fallback
+var timer = window.setTimeout(function(){window.location.reload();}, {{config.refreshDelay}}*1000);
+
+var xhr = new XMLHttpRequest();
+
+
+xhr.onreadystatechange = function () {
+  if (xhr.readyState == 4) { // DONE
+    var status = xhr.status;
+    if (status === 0 || (status >= 200 && status < 400)) {
+      // The request has been completed successfully
+      window.location.reload();
+      /*if (xhr.responseText == "reload") {
+        window.location.reload();
+      }*/
+    } else {
+      // Error with request - retry?
+      window.location.reload();
+    }
+  }
+};
+
+xhr.open("GET", "/update/?role={{role.role}}&client={{config.clientId}}", true);
+xhr.timeout = {{config.requestTimeout}} * 1000;
+xhr.ontimeout = function () {
+  // re-initiate connection
+}
+xhr.send();
+
+// if we made it to here, is it safe to clear the timeout?
+if (xhr.readyState > 0) {
+  //document.write("Hello " + window.innerWidth);
+  window.clearTimeout(timer);
+  timeout = window.setTimeout(function(){window.location.reload();}, {{config.fallbackRefreshDelay}}*1000);
+}
+</script>
+
+{% endblock %}
