@@ -1,4 +1,4 @@
-# stimsrv-client-servercanvas
+# stimsrv-client-puppeteer
 
 A client for [stimsrv](https://github.com/floledermann/stimsrv) to use with old & simple browsers. This client renders stimuli on the server using [puppeteer](https://pptr.dev).
 
