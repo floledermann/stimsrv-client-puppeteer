@@ -19,13 +19,26 @@ module.exports = function(config) {
     // which client to use in puppeteer browser - must not recursively invoke puppeteer!
     subClient: "browser"
   }, config);
-
+  
   function clientFactory(experiment, controller) {
   
     return function(client, role) {
       
       let imageWidth = 480;
       let imageHeight = 480;
+      
+      client = Object.assign({
+        imageType: "png", // "png" or "jpeg"
+        imageQuality: 80,
+      }, client);
+
+      if (client.imageType == "jpg") {
+        client.imageType = "jpeg";
+      }
+      if (client.imageType == "png") {
+        // puppeteer complains about setting this for png
+        delete client.imageQuality;
+      }
       
       if (client.imageSize) {
         let [w,h] = client.imageSize.split("x").map(n => +n);
@@ -90,6 +103,8 @@ module.exports = function(config) {
       function renderCurrentImage(response) {
         navP.then(() => pageP.then(page => {    
           page.screenshot({
+            type: client.imageType,
+            quality: client.imageQuality,
           }).then(buffer => {
             console.log("Rendering image...");
             response.write(buffer, 'binary');
@@ -104,6 +119,7 @@ module.exports = function(config) {
       function update() {
         if (!updated && updateResponse) {
           updateResponse.send("reload");
+          //console.log("Requesting update!");
           updateResponse = null;
           updated = true;
         }
@@ -143,7 +159,9 @@ module.exports = function(config) {
             renderCurrentImage(res); 
           }
           else if (req.path == "/update/") {
+            //console.log("Update Request Received...");
             if (updateResponse) {
+              //console.log("Abandoning old update request.");
               // abort old update
               updateResponse.send("");
             }
