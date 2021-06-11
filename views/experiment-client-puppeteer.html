@@ -17,6 +17,7 @@
 html, body {
   background-color: {{backgroundColor}};
   color: {{foregroundColor}};
+  overflow: hidden;
 }
 </style>
 
@@ -27,7 +28,7 @@ document.write(window.innerWidth);
 #}
 
 {% for ui in role.interfaces %}
-<section class="interface-{{ui}}">
+<section class="interface-{{ui}}" style="width:{{imageSize[0]}}px; height:{{imageSize[1]}}px; overflow: hidden;">
 <img src="/image/?role={{role.role}}&client={{config.clientId}}" width="{{imageSize[0]}}" height="{{imageSize[1]}}">
 </section>
 {% endfor %}
@@ -50,10 +51,9 @@ xhr.onreadystatechange = function () {
     var status = xhr.status;
     if (status === 0 || (status >= 200 && status < 400)) {
       // The request has been completed successfully
-      window.location.reload();
-      /*if (xhr.responseText == "reload") {
+      if (xhr.responseText == "reload") {
         window.location.reload();
-      }*/
+      }
     } else {
       // Error with request - retry?
       window.location.reload();
