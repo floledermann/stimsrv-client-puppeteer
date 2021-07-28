@@ -1,6 +1,6 @@
 {
   "name": "stimsrv-client-puppeteer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Server-side rendering of stimsrv tasks for old & simple browsers.",
   "author": "Florian Ledermann <florian.ledermann@tuwien.ac.at>",
   "license": "AGPL-3.0-or-later",
