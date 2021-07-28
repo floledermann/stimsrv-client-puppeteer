@@ -49,7 +49,7 @@ module.exports = function(config) {
       
       // we need these to keep track of the background color - this should be simplified
       let taskIndex = -1;
-      let currentTaskUI = null;
+      let currentTaskFrontend = null;
       let currentDisplay = null;
       let currentContext = null;
       let currentCondition = null;
@@ -144,8 +144,8 @@ module.exports = function(config) {
             currentContext = data.context;
             let fullContext = Object.assign({}, currentContext, localContext);
             
-            currentTaskUI = experiment.tasks[data.taskIndex].ui(fullContext);
-            currentDisplay = currentTaskUI.interfaces[role.role + ".display"] || currentTaskUI.interfaces["display"] || currentTaskUI.interfaces["*"];
+            currentTaskFrontend = experiment.tasks[data.taskIndex].frontend(fullContext);
+            currentDisplay = currentTaskFrontend.interfaces[role.role + ".display"] || currentTaskFrontend.interfaces["display"] || currentTaskFrontend.interfaces["*"];
 
             if (data.condition) {
               showCondition(data.condition);
